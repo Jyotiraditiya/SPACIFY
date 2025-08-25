@@ -42,7 +42,7 @@ const App = () => {
           <input
             type="text"
             placeholder="Search"
-            className="flex-grow text-gray-700 placeholder-gray-400 focus:outline-none"
+            className="flex-grow text-gray-900 placeholder-gray-400 focus:outline-none bg-white"
           />
         </div>
       </section>
