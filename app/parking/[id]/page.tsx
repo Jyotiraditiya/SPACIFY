@@ -218,6 +218,7 @@ export default function ParkingDetailPage() {
                     type="date"
                     defaultValue={new Date().toISOString().split('T')[0]}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    aria-label="Select parking date"
                   />
                 </div>
 
@@ -230,13 +231,17 @@ export default function ParkingDetailPage() {
                       type="time"
                       defaultValue="14:00"
                       className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                      aria-label="Select start time"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Duration
                     </label>
-                    <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white">
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                      aria-label="Select duration"
+                    >
                       <option value="1">1 hour</option>
                       <option value="2" selected>2 hours</option>
                       <option value="3">3 hours</option>
@@ -251,7 +256,10 @@ export default function ParkingDetailPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Vehicle Type
                   </label>
-                  <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white">
+                  <select 
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    aria-label="Select vehicle type"
+                  >
                     <option value="car">Car</option>
                     <option value="bike">Bike</option>
                     <option value="van">Van</option>

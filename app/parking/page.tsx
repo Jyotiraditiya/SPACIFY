@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Search, Filter, MapPin, Clock, Star, Navigation } from 'lucide-react';
 import ParkingCard from '@/components/ParkingCard';
 import Map from '@/components/Map';
+import { mockData } from '@/utils/api';
 
 export default function ParkingPage() {
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
@@ -13,59 +14,12 @@ export default function ParkingPage() {
     features: [] as string[],
   });
 
-  const parkingSpots = [
-    {
-      id: 'ambience-mall',
-      name: 'Ambience Mall',
-      location: 'Sector 52, Gurgaon',
-      price: 100,
-      rating: 4.5,
-      distance: '0.5 km',
-      availability: 'available',
-      features: ['CCTV', 'Covered', 'EV Charging'],
-      coordinates: { lat: 28.4595, lng: 77.0266 },
-    },
-    {
-      id: 'delhi-airport',
-      name: 'Delhi Airport',
-      location: 'Terminal 3 Parking',
-      price: 150,
-      rating: 4.2,
-      distance: '2.1 km',
-      availability: 'few-spots',
-      features: ['CCTV', 'Security', '24/7'],
-      coordinates: { lat: 28.5562, lng: 77.1000 },
-    },
-    {
-      id: 'anant-vihar',
-      name: 'Anant Vihar Station',
-      location: 'Delhi Metro',
-      price: 85,
-      rating: 4.0,
-      distance: '1.2 km',
-      availability: 'available',
-      features: ['Metro Access', 'Budget Friendly'],
-      coordinates: { lat: 28.6139, lng: 77.2090 },
-    },
-    {
-      id: 'cp-connaught',
-      name: 'Connaught Place',
-      location: 'Central Delhi',
-      price: 120,
-      rating: 4.3,
-      distance: '3.5 km',
-      availability: 'available',
-      features: ['Central Location', 'Shopping'],
-      coordinates: { lat: 28.6315, lng: 77.2167 },
-    },
-  ];
-
-  const filteredSpots = parkingSpots.filter(spot => 
+  const filteredSpots = mockData.parkingSpots.filter(spot => 
     spot.price <= filters.maxPrice &&
     (filters.features.length === 0 || filters.features.some(feature => 
       spot.features.some(spotFeature => spotFeature.toLowerCase().includes(feature.toLowerCase()))
     ))
-  );
+  ) as any[];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -81,7 +35,11 @@ export default function ParkingPage() {
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
               />
             </div>
-            <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+            <button 
+              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              aria-label="Open filters"
+              title="Open filters"
+            >
               <Filter className="w-5 h-5 text-gray-600" />
             </button>
             <div className="flex bg-gray-100 rounded-lg p-1">
@@ -119,6 +77,7 @@ export default function ParkingPage() {
               value={filters.maxPrice}
               onChange={(e) => setFilters({...filters, maxPrice: parseInt(e.target.value)})}
               className="border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-900 bg-white"
+              aria-label="Maximum price filter"
             >
               <option value={200}>₹200/hr</option>
               <option value={150}>₹150/hr</option>
@@ -132,6 +91,7 @@ export default function ParkingPage() {
               value={filters.vehicleType}
               onChange={(e) => setFilters({...filters, vehicleType: e.target.value})}
               className="border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-900 bg-white"
+              aria-label="Vehicle type filter"
             >
               <option value="car">Car</option>
               <option value="bike">Bike</option>
@@ -172,7 +132,10 @@ export default function ParkingPage() {
               <span className="text-sm">Near you</span>
             </div>
           </div>
-          <select className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-white">
+          <select 
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-white"
+            aria-label="Sort parking spots"
+          >
             <option>Sort by Distance</option>
             <option>Sort by Price</option>
             <option>Sort by Rating</option>

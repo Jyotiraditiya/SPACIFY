@@ -122,6 +122,7 @@ export default function BookingPage() {
                         value={bookingData.date}
                         onChange={(e) => setBookingData({...bookingData, date: e.target.value})}
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                        aria-label="Select parking date"
                       />
                     </div>
 
@@ -137,6 +138,7 @@ export default function BookingPage() {
                           value={bookingData.startTime}
                           onChange={(e) => setBookingData({...bookingData, startTime: e.target.value})}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                          aria-label="Select start time"
                         />
                       </div>
                       <div>
@@ -145,6 +147,7 @@ export default function BookingPage() {
                           value={bookingData.duration}
                           onChange={(e) => setBookingData({...bookingData, duration: parseInt(e.target.value)})}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                          aria-label="Select duration"
                         >
                           <option value={1}>1 hour</option>
                           <option value={2}>2 hours</option>
@@ -169,6 +172,7 @@ export default function BookingPage() {
                           value={bookingData.vehicleType}
                           onChange={(e) => setBookingData({...bookingData, vehicleType: e.target.value})}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                          aria-label="Select vehicle type"
                         >
                           <option value="car">Car</option>
                           <option value="bike">Bike</option>

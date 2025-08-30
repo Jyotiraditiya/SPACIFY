@@ -147,7 +147,7 @@ export default function ProfilePage() {
               <div>
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-semibold text-gray-800">My Bookings</h2>
-                  <select className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-white">
+                  <select className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-white" aria-label="Filter bookings" title="Filter bookings by status">
                     <option>All Bookings</option>
                     <option>Active</option>
                     <option>Completed</option>
@@ -242,7 +242,7 @@ export default function ProfilePage() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Default</span>
-                        <button className="text-gray-500 hover:text-gray-700">
+                        <button className="text-gray-500 hover:text-gray-700" aria-label="Edit payment method" title="Edit payment method">
                           <Settings className="w-4 h-4" />
                         </button>
                       </div>
@@ -261,7 +261,7 @@ export default function ProfilePage() {
                           <p className="text-sm text-gray-600">UPI ID</p>
                         </div>
                       </div>
-                      <button className="text-gray-500 hover:text-gray-700">
+                      <button className="text-gray-500 hover:text-gray-700" aria-label="Edit UPI settings" title="Edit UPI settings">
                         <Settings className="w-4 h-4" />
                       </button>
                     </div>
@@ -304,6 +304,8 @@ export default function ProfilePage() {
                           type="text"
                           value={userProfile.name}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                          aria-label="Full name"
+                          title="Enter your full name"
                         />
                       </div>
                       <div>
@@ -312,6 +314,8 @@ export default function ProfilePage() {
                           type="email"
                           value={userProfile.email}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                          aria-label="Email address"
+                          title="Enter your email address"
                         />
                       </div>
                       <div>
@@ -320,6 +324,8 @@ export default function ProfilePage() {
                           type="tel"
                           value={userProfile.phone}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                          aria-label="Phone number"
+                          title="Enter your phone number"
                         />
                       </div>
                     </div>
@@ -334,15 +340,15 @@ export default function ProfilePage() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-gray-700">Booking confirmations</span>
-                        <input type="checkbox" defaultChecked className="rounded" />
+                        <input type="checkbox" defaultChecked className="rounded" aria-label="Enable booking confirmations" title="Toggle booking confirmation notifications" />
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-gray-700">Parking reminders</span>
-                        <input type="checkbox" defaultChecked className="rounded" />
+                        <input type="checkbox" defaultChecked className="rounded" aria-label="Enable parking reminders" title="Toggle parking reminder notifications" />
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-gray-700">Promotional offers</span>
-                        <input type="checkbox" className="rounded" />
+                        <input type="checkbox" className="rounded" aria-label="Enable promotional offers" title="Toggle promotional offer notifications" />
                       </div>
                     </div>
                   </div>
