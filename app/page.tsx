@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   Search,
   Bell,
@@ -19,6 +20,7 @@ import {
 
 export default function HomePage() {
   const [selectedVehicle, setSelectedVehicle] = React.useState('car');
+  const { user, isAuthenticated } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-700">
@@ -27,7 +29,23 @@ export default function HomePage() {
         {/* Header Section */}
         <header className="p-6 flex items-center justify-between text-white">
           <div className="flex items-center space-x-3">
-            <UserCircle className="w-10 h-10 rounded-full text-white border-2 border-white" />
+            {isAuthenticated ? (
+              <>
+                <UserCircle className="w-10 h-10 rounded-full text-white border-2 border-white" />
+                <div>
+                  <h2 className="font-medium">Welcome back!</h2>
+                  <p className="text-blue-200 text-sm">{user?.name}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <UserCircle className="w-10 h-10 rounded-full text-white border-2 border-white" />
+                <div>
+                  <h2 className="font-medium">Welcome to SPACIFY</h2>
+                  <p className="text-blue-200 text-sm">Sign in to get started</p>
+                </div>
+              </>
+            )}
             <span className="text-lg font-medium">GOOD MORNING</span>
           </div>
           <div className="bg-blue-700 p-2 rounded-full shadow-lg">
@@ -253,6 +271,22 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Authentication CTA Section */}
+      {!isAuthenticated && (
+        <section className="mx-4 mb-8 bg-white rounded-xl shadow-lg p-6 text-center">
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Ready to Start Parking Smart?</h3>
+          <p className="text-gray-600 mb-4">Join thousands of users who save time and money with SPACIFY</p>
+          <div className="flex space-x-3">
+            <Link href="/auth/signup" className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+              Sign Up Free
+            </Link>
+            <Link href="/auth/login" className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+              Sign In
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Bottom Navigation - Mobile */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white p-4 flex justify-around items-center rounded-t-2xl shadow-lg border-t border-gray-100 md:hidden">
