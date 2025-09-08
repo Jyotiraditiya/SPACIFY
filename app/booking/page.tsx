@@ -92,6 +92,7 @@ export default function BookingPage() {
       
       setIsBookingComplete(true);
     } catch (error) {
+      console.error('Booking error:', error);
       setErrors({ general: 'Booking failed. Please try again.' });
     } finally {
       setIsProcessing(false);

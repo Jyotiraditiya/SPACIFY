@@ -287,7 +287,7 @@ export default function ParkingDetailPage() {
               </div>
 
               {/* Book Button */}
-              {spot.availability !== 'full' ? (
+              {spot.availability === 'available' || spot.availability === 'few-spots' ? (
                 <Link href={`/booking?spotId=${spot.id}`}>
                   <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                     Book Now

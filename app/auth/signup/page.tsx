@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock, User, Phone, Car, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function SignupPage() {
   const router = useRouter();
+  const { signup } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -71,18 +73,21 @@ export default function SignupPage() {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Use the auth context signup method
+      const result = await signup(formData);
       
-      // Mock successful registration
-      setSuccess('Account created successfully! Redirecting to login...');
-      
-      // In real app, you might auto-login the user or redirect to verification
-      setTimeout(() => {
-        router.push('/auth/login');
-      }, 2000);
-      
-    } catch (err) {
+      if (result.success) {
+        setSuccess(result.message || 'Account created successfully! You can now sign in with your credentials.');
+        
+        // After successful signup, redirect to login
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 2000);
+      } else {
+        setError(result.message || 'Signup failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
       setError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);

@@ -1,10 +1,32 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Filter, MapPin, Clock, Star, Navigation } from 'lucide-react';
+import { Search, Filter, MapPin, Navigation } from 'lucide-react';
 import ParkingCard from '@/components/ParkingCard';
 import Map from '@/components/Map';
 import { mockData } from '@/utils/api';
+
+interface ParkingSpot {
+  id: string;
+  name: string;
+  address: string;
+  location: string;
+  price: number;
+  pricePerHour: number;
+  totalSpots: number;
+  availableSpots: number;
+  coordinates: { lat: number; lng: number };
+  amenities: string[];
+  rating: number;
+  images: string[];
+  distance: string;
+  availability: 'available' | 'few-spots' | 'full';
+  description: string;
+  features: string[];
+  contact: string;
+  openingHours: string;
+  hourlyRate: number;
+}
 
 export default function ParkingPage() {
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
@@ -19,7 +41,7 @@ export default function ParkingPage() {
     (filters.features.length === 0 || filters.features.some(feature => 
       spot.features.some(spotFeature => spotFeature.toLowerCase().includes(feature.toLowerCase()))
     ))
-  ) as any[];
+  ) as ParkingSpot[];
 
   return (
     <div className="min-h-screen bg-gray-50">

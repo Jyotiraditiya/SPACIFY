@@ -3,13 +3,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock, Car, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { isFirstVisit, login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
+    rememberMe: false
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,28 +44,19 @@ export default function LoginPage() {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Use the auth context login method
+      const result = await login(formData.email, formData.password, formData.rememberMe);
       
-      // Mock authentication - in real app, this would be an API call
-      if (formData.email === 'user@example.com' && formData.password === 'password123') {
+      if (result.success) {
         setSuccess('Login successful! Redirecting...');
-        
-        // Store user session (in real app, this would be handled by auth service)
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('user', JSON.stringify({
-          name: 'John Doe',
-          email: formData.email,
-          phone: '+91 98765 43210'
-        }));
-
         setTimeout(() => {
           router.push('/');
         }, 1000);
       } else {
-        setError('Invalid email or password. Try user@example.com / password123');
+        setError(result.message || 'Invalid email or password.');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Login error:', error);
       setError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
@@ -72,7 +66,8 @@ export default function LoginPage() {
   const handleDemoLogin = () => {
     setFormData({
       email: 'user@example.com',
-      password: 'password123'
+      password: 'password123',
+      rememberMe: false
     });
   };
 
@@ -85,8 +80,34 @@ export default function LoginPage() {
             <Car className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">SPACIFY</h1>
-          <p className="text-gray-600">Welcome back! Please sign in to your account.</p>
+          {isFirstVisit ? (
+            <p className="text-gray-600">Welcome! Please sign in to get started with smart parking.</p>
+          ) : (
+            <p className="text-gray-600">Welcome back! Please sign in to your account.</p>
+          )}
         </div>
+
+        {/* First Visit Welcome Message */}
+        {isFirstVisit && (
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-blue-800">First time here?</h3>
+                <div className="mt-2 text-sm text-blue-700">
+                  <p>Welcome to SPACIFY! Sign in to:</p>
+                  <ul className="mt-1 list-disc list-inside">
+                    <li>Find and book parking spots instantly</li>
+                    <li>Save your favorite locations</li>
+                    <li>Track your parking history</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Demo Credentials Info */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
@@ -178,6 +199,9 @@ export default function LoginPage() {
                 <input
                   type="checkbox"
                   id="remember"
+                  name="rememberMe"
+                  checked={formData.rememberMe}
+                  onChange={handleInputChange}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   aria-label="Remember me"
                 />
@@ -233,7 +257,7 @@ export default function LoginPage() {
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/auth/signup" className="text-blue-600 hover:text-blue-800 font-semibold underline">
                 Sign up here
               </Link>
