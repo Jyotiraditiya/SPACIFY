@@ -100,7 +100,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { success: false, message: 'Login failed: Invalid response' };
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message || 'Login failed';
+      let errorMessage = 'Login failed';
+      
+      if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
+        errorMessage = 'Cannot connect to server. Please ensure the backend is running on port 8000.';
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Invalid email or password';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      console.error('Login error:', error);
       return { success: false, message: errorMessage };
     }
   };
@@ -129,7 +141,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { success: false, message: 'Signup failed: Invalid response' };
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message || 'Signup failed';
+      let errorMessage = 'Signup failed';
+      
+      if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
+        errorMessage = 'Cannot connect to server. Please ensure the backend is running on port 8000.';
+      } else if (error.response?.status === 400) {
+        errorMessage = error.response.data?.message || 'User with this email already exists';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      console.error('Signup error:', error);
       return { success: false, message: errorMessage };
     }
   };
