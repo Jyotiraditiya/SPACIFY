@@ -36,49 +36,56 @@ export default function Map({ spots }: MapProps) {
 
       {/* Map Markers */}
       <div className="absolute inset-0 p-4">
-        {spots.map((spot, index) => (
-          <div
-            key={spot.id}
-            className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-            style={{
-              left: `${20 + (index * 15) % 60}%`,
-              top: `${25 + (index * 12) % 50}%`,
-            }}
-          >
-            {/* Marker */}
-            <div className="relative">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white transition-transform group-hover:scale-110 ${
-                spot.availability === 'available' ? 'bg-green-500' :
-                spot.availability === 'few-spots' ? 'bg-yellow-500' : 'bg-red-500'
-              }`}>
-                <MapPin className="w-4 h-4 text-white" />
-              </div>
-              
-              {/* Tooltip */}
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                <div className="bg-white rounded-lg shadow-lg p-3 min-w-48 border border-gray-200">
-                  <h4 className="font-semibold text-gray-800 text-sm">{spot.name}</h4>
-                  <p className="text-xs text-gray-600 mb-1">{spot.location}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-blue-600 font-bold text-sm">₹{spot.price}/hr</span>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      spot.availability === 'available' ? 'bg-green-100 text-green-700' :
-                      spot.availability === 'few-spots' ? 'bg-yellow-100 text-yellow-700' : 
-                      'bg-red-100 text-red-700'
-                    }`}>
-                      {spot.availability === 'available' ? 'Available' : 
-                       spot.availability === 'few-spots' ? 'Few Spots' : 'Full'}
-                    </span>
-                  </div>
-                  {/* Arrow */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
-                    <div className="w-2 h-2 bg-white border-r border-b border-gray-200 transform rotate-45"></div>
+        {spots.map((spot, index) => {
+          // Calculate position using predefined positions to avoid inline styles
+          const positions = [
+            'left-[20%] top-[25%]', 'left-[35%] top-[37%]', 'left-[50%] top-[49%]',
+            'left-[65%] top-[36%]', 'left-[80%] top-[48%]', 'left-[25%] top-[60%]',
+            'left-[40%] top-[72%]', 'left-[55%] top-[59%]', 'left-[70%] top-[71%]',
+            'left-[30%] top-[45%]', 'left-[45%] top-[57%]', 'left-[60%] top-[44%]'
+          ];
+          const positionClass = positions[index % positions.length] || 'left-[50%] top-[50%]';
+          
+          return (
+            <div
+              key={spot.id}
+              className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group ${positionClass}`}
+            >
+              {/* Marker */}
+              <div className="relative">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white transition-transform group-hover:scale-110 ${
+                  spot.availability === 'available' ? 'bg-green-500' :
+                  spot.availability === 'few-spots' ? 'bg-yellow-500' : 'bg-red-500'
+                }`}>
+                  <MapPin className="w-4 h-4 text-white" />
+                </div>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  <div className="bg-white rounded-lg shadow-lg p-3 min-w-48 border border-gray-200">
+                    <h4 className="font-semibold text-gray-800 text-sm">{spot.name}</h4>
+                    <p className="text-xs text-gray-600 mb-1">{spot.location}</p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-blue-600 font-bold text-sm">₹{spot.price}/hr</span>
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        spot.availability === 'available' ? 'bg-green-100 text-green-700' :
+                        spot.availability === 'few-spots' ? 'bg-yellow-100 text-yellow-700' : 
+                        'bg-red-100 text-red-700'
+                      }`}>
+                        {spot.availability === 'available' ? 'Available' : 
+                         spot.availability === 'few-spots' ? 'Few Spots' : 'Full'}
+                      </span>
+                    </div>
+                    {/* Arrow */}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                      <div className="w-2 h-2 bg-white border-r border-b border-gray-200 transform rotate-45"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Map Controls */}
